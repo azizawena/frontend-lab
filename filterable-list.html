@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Filterable List Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#15171a;--panel:#1b1e23;--text:#f4f1f3;--muted:#b8b3b6;--accent:#8b5a75}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}
+main{max-width:820px;margin:auto;padding:48px 24px}label{display:block;font-weight:700;margin-bottom:8px}
+input{width:100%;padding:13px;background:#101217;border:1px solid #555;color:var(--text)}
+ul{padding:0;display:grid;gap:10px}li{list-style:none;padding:16px;border:1px solid #3b3e43;background:var(--panel)}
+small{color:var(--muted)}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+</style>
+<main>
+<h1>Filtro progressivo</h1>
+<label for="filter">Filtrar projetos</label>
+<input id="filter" type="search" autocomplete="off" aria-controls="projects">
+<p id="count" aria-live="polite"></p>
+<ul id="projects">
+<li data-search="ux ui wordpress artista"><strong>Kwaku Ananse Kintê</strong><br><small>UX/UI · WordPress</small></li>
+<li data-search="branding cultura estrategia"><strong>Ilù Ire</strong><br><small>Estratégia · Sistema de marca</small></li>
+<li data-search="wordpress operação agencia"><strong>Akili Design</strong><br><small>WordPress · Operação digital</small></li>
+<li data-search="conteudo web manutenção"><strong>Verônica Botelho</strong><br><small>Conteúdo · Web</small></li>
+</ul>
+</main>
+<script>
+const input=document.querySelector('#filter');
+const items=[...document.querySelectorAll('#projects li')];
+const count=document.querySelector('#count');
+function update(){
+ const q=input.value.trim().toLowerCase();
+ let visible=0;
+ items.forEach(item=>{
+   const ok=!q || (item.textContent+' '+item.dataset.search).toLowerCase().includes(q);
+   item.hidden=!ok;
+   if(ok) visible++;
+ });
+ count.textContent=`${visible} projeto${visible===1?'':'s'} visível${visible===1?'':'eis'}.`;
+}
+input.addEventListener('input',update); update();
+</script></html>

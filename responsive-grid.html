@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Responsive Grid Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#15171a;--panel:#1b1e23;--text:#f4f1f3;--muted:#b8b3b6;--accent:#8b5a75}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}
+main{max-width:1100px;margin:auto;padding:48px 24px}h1{font-size:clamp(2.2rem,6vw,5rem);line-height:.95}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+.card{min-height:180px;padding:20px;border:1px solid #383b41;background:var(--panel)}
+.card span{color:var(--accent);font:12px monospace}.card p{color:var(--muted)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+</style>
+<main>
+<h1>Grid responsivo pelo conteúdo.</h1>
+<p>Os cards se reorganizam conforme o espaço disponível sem breakpoints específicos por dispositivo.</p>
+<section class="grid" aria-label="Exemplos">
+  <article class="card"><span>01</span><h2>Arquitetura</h2><p>Conteúdo determina a largura mínima.</p></article>
+  <article class="card"><span>02</span><h2>Interface</h2><p>Grid distribui o espaço restante.</p></article>
+  <article class="card"><span>03</span><h2>QA</h2><p>Teste em larguras intermediárias, não só mobile/desktop.</p></article>
+  <article class="card"><span>04</span><h2>Manutenção</h2><p>Menos regras específicas reduzem regressões.</p></article>
+</section>
+</main></html>

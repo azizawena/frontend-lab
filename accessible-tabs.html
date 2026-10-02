@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accessible Tabs Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#15171a;--panel:#1b1e23;--text:#f4f1f3;--muted:#b8b3b6;--accent:#8b5a75}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,sans-serif}
+main{max-width:760px;margin:auto;padding:48px 24px}.tabs{display:flex;gap:8px;flex-wrap:wrap}
+[role=tab]{padding:12px 16px;border:1px solid #444;background:transparent;color:var(--text);cursor:pointer}
+[role=tab][aria-selected=true]{background:var(--accent)}
+[role=tabpanel]{margin-top:16px;padding:24px;border:1px solid #444;background:var(--panel)}
+:focus-visible{outline:3px solid #d2a7bb;outline-offset:3px}
+</style>
+<main>
+<h1>Tabs acessíveis</h1>
+<p>Use Tab para entrar no componente e setas esquerda/direita para mudar a aba.</p>
+<div class="tabs" role="tablist" aria-label="Etapas do processo">
+<button role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1" tabindex="0">Estruturar</button>
+<button role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1">Desenhar</button>
+<button role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" tabindex="-1">Validar</button>
+</div>
+<section role="tabpanel" id="panel-1" aria-labelledby="tab-1">Hierarquia, fluxo e conteúdo antes da camada visual.</section>
+<section role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>Interface e componentes guiados por contexto.</section>
+<section role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>Responsividade, teclado, conteúdo e estados.</section>
+</main>
+<script>
+const tabs=[...document.querySelectorAll('[role="tab"]')];
+function activate(tab){
+  tabs.forEach(t=>{
+    const selected=t===tab;
+    t.setAttribute('aria-selected',selected);
+    t.tabIndex=selected?0:-1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden=!selected;
+  });
+  tab.focus();
+}
+tabs.forEach((tab,index)=>{
+  tab.addEventListener('click',()=>activate(tab));
+  tab.addEventListener('keydown',e=>{
+    if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+    e.preventDefault();
+    let next=index;
+    if(e.key==='ArrowRight') next=(index+1)%tabs.length;
+    if(e.key==='ArrowLeft') next=(index-1+tabs.length)%tabs.length;
+    if(e.key==='Home') next=0;
+    if(e.key==='End') next=tabs.length-1;
+    activate(tabs[next]);
+  });
+});
+</script></html>
